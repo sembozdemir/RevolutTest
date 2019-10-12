@@ -1,0 +1,105 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+def STRING = "string"
+def APP_NAME = "app_name"
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.sembozdemir.revoluttest"
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file("debug.keystore")
+        }
+
+        release {
+            keyAlias 'android'
+            keyPassword 'android'
+            storeFile file('release.keystore')
+            storePassword 'android'
+        }
+    }
+
+    flavorDimensions "default"
+
+    productFlavors {
+
+        dev {
+            dimension "default"
+            applicationIdSuffix '.dev'
+            resValue STRING, APP_NAME, "Revolut Dev"
+        }
+
+        prod {
+            dimension "default"
+            resValue STRING, APP_NAME, "Revolut"
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+            zipAlignEnabled true
+        }
+
+        release {
+            signingConfig signingConfigs.release
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'androidx.test:core:1.2.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
+
+    implementation 'com.google.android.material:material:1.1.0-beta01'
+
+    implementation 'com.google.dagger:dagger-android:2.22.1'
+    implementation 'com.google.dagger:dagger-android-support:2.22.1'
+    kapt 'com.google.dagger:dagger-compiler:2.22.1'
+    kapt 'com.google.dagger:dagger-android-processor:2.22.1'
+
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
+}
