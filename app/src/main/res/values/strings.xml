@@ -1,2 +1,5 @@
 <resources>
+    <string name="connection_error_message">Connection error. Please make sure you have internet connection.</string>
+    <string name="general_error_message">Something went wrong. Please try again later.</string>
+    <string name="empty_response_message">Unfortunately, we can\'t find any currency. Please try with another place!</string>
 </resources>
