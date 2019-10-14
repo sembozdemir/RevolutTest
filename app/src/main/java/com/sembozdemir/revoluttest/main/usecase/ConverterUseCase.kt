@@ -14,7 +14,7 @@ class ConverterUseCase @Inject constructor() {
         state: MutableLiveData<MainState>
     ) {
         val convertedItems = arrayListOf<RateItem>().apply {
-            add(RateItem(data.base, "", baseRate))
+            add(RateItem(data.base, baseRate))
         }
         convertedItems.addAll(data.items.map {
             val convertedRate = it.rate * baseRate

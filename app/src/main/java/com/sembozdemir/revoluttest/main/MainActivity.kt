@@ -3,7 +3,7 @@ package com.sembozdemir.revoluttest.main
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.sembozdemir.revoluttest.R
 import com.sembozdemir.revoluttest.core.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,7 +27,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
     }
 
     private fun setupRecyclerView() {
-        mainRecyclerView.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+        mainRecyclerView.layoutManager = LinearLayoutManager(this)
         mainRecyclerView.adapter = currenciesRecyclerAdapter
         mainRecyclerView.setHasFixedSize(true)
     }

@@ -23,7 +23,6 @@ class MainModelMapper @Inject constructor() {
             currencyItems.add(
                 RateItem(
                     prop.name.toUpperCase(),
-                    "",
                     (prop.get(rates) as? Double).orZero()
                 )
             )
