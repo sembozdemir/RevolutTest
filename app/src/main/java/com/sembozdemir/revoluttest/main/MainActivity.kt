@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<MainViewModel>() {
 
-    private val currenciesRecyclerAdapter = CurrenciesRecyclerAdapter()
+    private val currenciesRecyclerAdapter = RatesRecyclerAdapter()
 
     override fun getLayoutResId() = R.layout.activity_main
 

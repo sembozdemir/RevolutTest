@@ -1,14 +1,16 @@
-package com.sembozdemir.revoluttest.main
+package com.sembozdemir.revoluttest.main.usecase
 
 import androidx.lifecycle.MutableLiveData
 import com.sembozdemir.revoluttest.core.network.CurrencyApi
 import com.sembozdemir.revoluttest.core.util.ErrorHandler
+import com.sembozdemir.revoluttest.main.MainModelMapper
+import com.sembozdemir.revoluttest.main.MainState
 import kotlinx.coroutines.*
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class FetchCurrenciesAction @Inject constructor(
+class FetchCurrenciesUseCase @Inject constructor(
     private val currencyApi: CurrencyApi,
     private val errorHandler: ErrorHandler,
     private val modelMapper: MainModelMapper
@@ -24,6 +26,7 @@ class FetchCurrenciesAction @Inject constructor(
     }
 
     fun schedule(base: String, mutableState: MutableLiveData<MainState>) = launch {
+        mutableState.postValue(MainState.Loading)
         while (true) {
             Timber.d("Fetching currencies...")
             delay(1000)

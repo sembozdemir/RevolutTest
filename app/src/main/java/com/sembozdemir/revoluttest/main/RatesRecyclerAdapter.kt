@@ -6,28 +6,28 @@ import com.sembozdemir.revoluttest.R
 import com.sembozdemir.revoluttest.core.extensions.autoNotify
 import com.sembozdemir.revoluttest.core.extensions.inflate
 
-class CurrenciesRecyclerAdapter(
-    private var items: List<CurrencyItem> = emptyList()
-) : RecyclerView.Adapter<CurrencyItemViewHolder>() {
+class RatesRecyclerAdapter(
+    private var items: List<RateItem> = emptyList()
+) : RecyclerView.Adapter<RateItemViewHolder>() {
 
     init {
         setHasStableIds(true)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyItemViewHolder {
-        return CurrencyItemViewHolder(parent.inflate(R.layout.item_currency))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RateItemViewHolder {
+        return RateItemViewHolder(parent.inflate(R.layout.item_currency))
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
 
-    override fun onBindViewHolder(holder: CurrencyItemViewHolder, position: Int) {
-        holder.bind(items[position])
+    override fun onBindViewHolder(holder: RateItemViewHolder, position: Int) {
+        holder.bind(items[position], position == 0)
     }
 
     override fun onBindViewHolder(
-        holder: CurrencyItemViewHolder,
+        holder: RateItemViewHolder,
         position: Int,
         payloads: MutableList<Any>
     ) {
@@ -42,7 +42,7 @@ class CurrenciesRecyclerAdapter(
         return items[position].code.hashCode().toLong()
     }
 
-    fun updateItems(newItems: List<CurrencyItem>) {
+    fun updateItems(newItems: List<RateItem>) {
         val oldItems = items.toList()
         items = newItems
         autoNotify(oldItems, newItems,

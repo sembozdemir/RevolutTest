@@ -17,11 +17,11 @@ class MainModelMapper @Inject constructor() {
         )
     }
 
-    private fun mapCurrencyItems(rates: Rates): List<CurrencyItem> {
-        val currencyItems = arrayListOf<CurrencyItem>()
+    private fun mapCurrencyItems(rates: Rates): List<RateItem> {
+        val currencyItems = arrayListOf<RateItem>()
         for (prop in Rates::class.memberProperties) {
             currencyItems.add(
-                CurrencyItem(
+                RateItem(
                     prop.name.toUpperCase(),
                     "",
                     (prop.get(rates) as? Double).orZero()
