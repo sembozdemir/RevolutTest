@@ -10,7 +10,8 @@ import kotlin.coroutines.CoroutineContext
 
 class FetchCurrenciesAction @Inject constructor(
     private val currencyApi: CurrencyApi,
-    private val errorHandler: ErrorHandler
+    private val errorHandler: ErrorHandler,
+    private val modelMapper: MainModelMapper
 ): CoroutineScope {
 
     private var job: Job = Job()
@@ -39,10 +40,11 @@ class FetchCurrenciesAction @Inject constructor(
                 MainState.Error(errorHandler.getEmptyResponseMessage())
             } else {
                 response.body()?.let {
-                    MainState.Success(it)
+                    MainState.Success(modelMapper.toUIModel(it))
                 } ?: MainState.Error(errorHandler.getEmptyResponseMessage()).also { cancel() }
             }
         } catch (e: Exception) {
+            Timber.e(e)
             cancel()
             MainState.Error(errorHandler.getPrettyMessage(e))
         }

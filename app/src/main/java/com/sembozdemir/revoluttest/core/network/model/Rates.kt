@@ -44,7 +44,7 @@ data class Rates(
 	val gBP: Double? = null,
 
 	@field:Json(name="IDR")
-	val iDR: Int? = null,
+	val iDR: Double? = null,
 
 	@field:Json(name="HUF")
 	val hUF: Double? = null,

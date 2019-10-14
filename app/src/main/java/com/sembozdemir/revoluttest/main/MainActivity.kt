@@ -3,13 +3,14 @@ package com.sembozdemir.revoluttest.main
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.sembozdemir.revoluttest.R
 import com.sembozdemir.revoluttest.core.base.BaseActivity
-import com.sembozdemir.revoluttest.core.network.model.CurrencyResponse
 import kotlinx.android.synthetic.main.activity_main.*
-import timber.log.Timber
 
 class MainActivity : BaseActivity<MainViewModel>() {
+
+    private val currenciesRecyclerAdapter = CurrenciesRecyclerAdapter()
 
     override fun getLayoutResId() = R.layout.activity_main
 
@@ -18,9 +19,17 @@ class MainActivity : BaseActivity<MainViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setupRecyclerView()
+
         observeState()
 
         viewModel.startFetchCurrencies()
+    }
+
+    private fun setupRecyclerView() {
+        mainRecyclerView.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+        mainRecyclerView.adapter = currenciesRecyclerAdapter
+        mainRecyclerView.setHasFixedSize(true)
     }
 
     private fun observeState() {
@@ -33,9 +42,10 @@ class MainActivity : BaseActivity<MainViewModel>() {
         })
     }
 
-    private fun showSuccess(data: CurrencyResponse) {
+    private fun showSuccess(data: MainUIModel) {
         mainSwipeRefreshLayout.isRefreshing = false
-        Timber.d(data.rates.toString())
+        currenciesRecyclerAdapter.updateItems(data.items)
+
     }
 
     private fun showError(message: String) {
