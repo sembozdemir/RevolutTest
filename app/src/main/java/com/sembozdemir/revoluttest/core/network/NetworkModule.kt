@@ -1,6 +1,7 @@
 package com.sembozdemir.revoluttest.core.network
 
 import com.sembozdemir.revoluttest.BuildConfig
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -34,9 +35,19 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+    fun provideBigDecimalMoshiAdapter(): BigDecimalMoshiAdapter = BigDecimalMoshiAdapter()
+
+    @Provides
+    @Singleton
+    fun provideMoshi(bigDecimalMoshiAdapter: BigDecimalMoshiAdapter): Moshi = Moshi.Builder()
+        .add(bigDecimalMoshiAdapter)
+        .build()
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit = Retrofit.Builder()
         .client(okHttpClient)
-        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
         .baseUrl(CURRENCY_API_BASE_URL)
         .build()
 

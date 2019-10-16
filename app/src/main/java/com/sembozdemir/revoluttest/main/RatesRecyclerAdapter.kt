@@ -1,18 +1,19 @@
 package com.sembozdemir.revoluttest.main
 
 import android.view.ViewGroup
-import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.sembozdemir.revoluttest.R
 import com.sembozdemir.revoluttest.core.extensions.autoNotify
+import com.sembozdemir.revoluttest.core.extensions.doAfterTextChangedDebounced
 import com.sembozdemir.revoluttest.core.extensions.inflate
 import com.sembozdemir.revoluttest.core.extensions.orZero
 import kotlinx.android.synthetic.main.item_currency.view.*
+import java.math.BigDecimal
 
 class RatesRecyclerAdapter(
     private var items: List<RateItem> = emptyList(),
     private val onItemClick: (item: RateItem) -> Unit,
-    private val onBaseRateChanged: (baseRate: Double) -> Unit
+    private val onBaseRateChanged: (baseRate: BigDecimal) -> Unit
 ) : RecyclerView.Adapter<RateItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RateItemViewHolder {
@@ -24,10 +25,10 @@ class RatesRecyclerAdapter(
                 onItemClick(items[position])
             }
         }
-        holder.itemView.editTextRate.doAfterTextChanged {
+        holder.itemView.editTextRate.doAfterTextChangedDebounced {
             val position = holder.adapterPosition
             if (position == 0) {
-                onBaseRateChanged(it.toString().toDoubleOrNull().orZero())
+                onBaseRateChanged(it.toBigDecimalOrNull().orZero())
             }
         }
 
@@ -51,7 +52,7 @@ class RatesRecyclerAdapter(
         if (payloads.isEmpty()) {
             onBindViewHolder(holder, position)
         } else {
-            holder.setRate(payloads.first() as Double)
+            holder.setRate(payloads.first() as BigDecimal)
         }
     }
 

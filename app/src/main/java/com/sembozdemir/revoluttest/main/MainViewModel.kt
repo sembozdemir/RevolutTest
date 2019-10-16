@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.sembozdemir.revoluttest.core.base.BaseViewModel
 import com.sembozdemir.revoluttest.main.usecase.ConverterUseCase
 import com.sembozdemir.revoluttest.main.usecase.FetchCurrenciesUseCase
+import java.math.BigDecimal
 import javax.inject.Inject
 
 private const val DEFAULT_CURRENCY_CODE = "EUR"
@@ -21,7 +22,7 @@ class MainViewModel @Inject constructor(
 
     private val convertedState: MediatorLiveData<MainState> = MediatorLiveData()
 
-    private var baseRate: Double = 1.0
+    private var baseRate: BigDecimal = BigDecimal.ONE
 
     init {
         convertedState.addSource(rawState) { state ->
@@ -49,7 +50,7 @@ class MainViewModel @Inject constructor(
         fetchCurrenciesUseCase.cancel()
     }
 
-    fun setBaseRate(baseRate: Double) {
+    fun setBaseRate(baseRate: BigDecimal) {
         this.baseRate = baseRate
     }
 

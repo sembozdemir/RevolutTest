@@ -4,12 +4,13 @@ import androidx.lifecycle.MutableLiveData
 import com.sembozdemir.revoluttest.main.MainState
 import com.sembozdemir.revoluttest.main.MainUIModel
 import com.sembozdemir.revoluttest.main.RateItem
+import java.math.BigDecimal
 import javax.inject.Inject
 
 class ConverterUseCase @Inject constructor() {
 
     fun execute(
-        baseRate: Double,
+        baseRate: BigDecimal,
         data: MainUIModel,
         scrollTop: Boolean,
         state: MutableLiveData<MainState>

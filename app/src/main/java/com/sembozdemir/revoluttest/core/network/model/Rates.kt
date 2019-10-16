@@ -1,105 +1,106 @@
 package com.sembozdemir.revoluttest.core.network.model
 
 import com.squareup.moshi.Json
+import java.math.BigDecimal
 
 data class Rates(
 
 	@field:Json(name="CHF")
-	val cHF: Double? = null,
+	val chf: BigDecimal? = null,
 
 	@field:Json(name="HRK")
-	val hRK: Double? = null,
+	val hrk: BigDecimal? = null,
 
 	@field:Json(name="MXN")
-	val mXN: Double? = null,
+	val mxn: BigDecimal? = null,
 
 	@field:Json(name="ZAR")
-	val zAR: Double? = null,
+	val zar: BigDecimal? = null,
 
 	@field:Json(name="INR")
-	val iNR: Double? = null,
+	val inr: BigDecimal? = null,
 
 	@field:Json(name="CNY")
-	val cNY: Double? = null,
+	val cny: BigDecimal? = null,
 
 	@field:Json(name="THB")
-	val tHB: Double? = null,
+	val thb: BigDecimal? = null,
 
 	@field:Json(name="AUD")
-	val aUD: Double? = null,
+	val aud: BigDecimal? = null,
 
 	@field:Json(name="ILS")
-	val iLS: Double? = null,
+	val ils: BigDecimal? = null,
 
 	@field:Json(name="KRW")
-	val kRW: Double? = null,
+	val krw: BigDecimal? = null,
 
 	@field:Json(name="JPY")
-	val jPY: Double? = null,
+	val jpy: BigDecimal? = null,
 
 	@field:Json(name="PLN")
-	val pLN: Double? = null,
+	val pln: BigDecimal? = null,
 
 	@field:Json(name="GBP")
-	val gBP: Double? = null,
+	val gbp: BigDecimal? = null,
 
 	@field:Json(name="IDR")
-	val iDR: Double? = null,
+	val idr: BigDecimal? = null,
 
 	@field:Json(name="HUF")
-	val hUF: Double? = null,
+	val huf: BigDecimal? = null,
 
 	@field:Json(name="PHP")
-	val pHP: Double? = null,
+	val php: BigDecimal? = null,
 
 	@field:Json(name="TRY")
-	val tRY: Double? = null,
+	val `try`: BigDecimal? = null,
 
 	@field:Json(name="RUB")
-	val rUB: Double? = null,
+	val rub: BigDecimal? = null,
 
 	@field:Json(name="HKD")
-	val hKD: Double? = null,
+	val hkd: BigDecimal? = null,
 
 	@field:Json(name="ISK")
-	val iSK: Double? = null,
+	val isk: BigDecimal? = null,
 
 	@field:Json(name="DKK")
-	val dKK: Double? = null,
+	val dkk: BigDecimal? = null,
 
 	@field:Json(name="CAD")
-	val cAD: Double? = null,
+	val cad: BigDecimal? = null,
 
 	@field:Json(name="MYR")
-	val mYR: Double? = null,
+	val myr: BigDecimal? = null,
 
 	@field:Json(name="USD")
-	val uSD: Double? = null,
+	val usd: BigDecimal? = null,
 
 	@field:Json(name="BGN")
-	val bGN: Double? = null,
+	val bgn: BigDecimal? = null,
 
 	@field:Json(name="NOK")
-	val nOK: Double? = null,
+	val nok: BigDecimal? = null,
 
 	@field:Json(name="RON")
-	val rON: Double? = null,
+	val ron: BigDecimal? = null,
 
 	@field:Json(name="SGD")
-	val sGD: Double? = null,
+	val sgd: BigDecimal? = null,
 
 	@field:Json(name="CZK")
-	val cZK: Double? = null,
+	val czk: BigDecimal? = null,
 
 	@field:Json(name="SEK")
-	val sEK: Double? = null,
+	val sek: BigDecimal? = null,
 
 	@field:Json(name="NZD")
-	val nZD: Double? = null,
+	val nzd: BigDecimal? = null,
 
 	@field:Json(name="BRL")
-	val bRL: Double? = null,
+	val brl: BigDecimal? = null,
 
 	@field:Json(name="EUR")
-	val eUR: Double? = null
+	val eur: BigDecimal? = null
 )

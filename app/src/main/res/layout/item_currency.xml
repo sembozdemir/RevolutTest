@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
     android:orientation="vertical">
 
     <TextView
@@ -37,10 +38,13 @@
         android:enabled="false"
         android:textAppearance="@style/TextStyle.24.Bold"
         android:textColor="@color/black"
+        android:inputType="numberDecimal"
+        android:hint="@string/base_rate_input_hint"
+        android:gravity="end"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="3.1211" />
+        tools:text="3" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sembozdemir.revoluttest.R
 import com.sembozdemir.revoluttest.core.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import java.math.BigDecimal
 
 class MainActivity : BaseActivity<MainViewModel>() {
 
@@ -61,7 +62,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
         viewModel.startFetchCurrencies(code = rateItem.code, scrollTop = true)
     }
 
-    private fun onBaseRateChanged(baseRate: Double) {
+    private fun onBaseRateChanged(baseRate: BigDecimal) {
         viewModel.setBaseRate(baseRate)
     }
 }
