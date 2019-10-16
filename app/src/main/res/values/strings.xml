@@ -38,4 +38,5 @@
     <string name="currency_try">Turkish Lira</string>
     <string name="currency_zar">South African Rand</string>
     <string name="base_rate_input_hint">0.00</string>
+    <string name="retry">Retry</string>
 </resources>

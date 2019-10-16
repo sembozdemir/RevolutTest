@@ -1,9 +1,10 @@
 package com.sembozdemir.revoluttest.main
 
 import android.os.Bundle
-import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.sembozdemir.revoluttest.R
 import com.sembozdemir.revoluttest.core.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -12,7 +13,7 @@ import java.math.BigDecimal
 class MainActivity : BaseActivity<MainViewModel>() {
 
     private val stateObserver: Observer<MainState> = Observer { state ->
-        mainSwipeRefreshLayout.isRefreshing = state.loading
+        mainProgressBar.isVisible = state.loading
         state.errorMessage?.let { showError(it) }
         state.data?.let { showSuccess(it) }
         if (state.scrollTop) {
@@ -27,7 +28,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     override fun getLayoutResId() = R.layout.activity_main
 
-    override fun createViewModel()= provideViewModel<MainViewModel>()
+    override fun createViewModel() = provideViewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +47,14 @@ class MainActivity : BaseActivity<MainViewModel>() {
     }
 
     private fun observeState() {
-        viewModel.state.observe(this, stateObserver)
+        viewModel.state.observe(this, Observer { state ->
+            mainProgressBar.isVisible = state.loading
+            state.errorMessage?.let { showError(it) }
+            state.data?.let { showSuccess(it) }
+            if (state.scrollTop) {
+                mainRecyclerView.scrollToPosition(0)
+            }
+        })
     }
 
     private fun showSuccess(data: MainUIModel) {
@@ -54,7 +62,9 @@ class MainActivity : BaseActivity<MainViewModel>() {
     }
 
     private fun showError(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        Snackbar.make(mainCoordinatorLayout, message, Snackbar.LENGTH_INDEFINITE)
+            .apply { setAction(R.string.retry) { viewModel.startFetchCurrencies() } }
+            .show()
     }
 
     private fun onItemClick(rateItem: RateItem) {
