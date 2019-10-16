@@ -1,6 +1,5 @@
 package com.sembozdemir.revoluttest.main
 
-import com.sembozdemir.revoluttest.core.extensions.orZero
 import com.sembozdemir.revoluttest.core.network.model.CurrencyResponse
 import com.sembozdemir.revoluttest.core.network.model.Rates
 import javax.inject.Inject
@@ -20,12 +19,14 @@ class MainModelMapper @Inject constructor() {
     private fun mapCurrencyItems(rates: Rates): List<RateItem> {
         val currencyItems = arrayListOf<RateItem>()
         for (prop in Rates::class.memberProperties) {
-            currencyItems.add(
-                RateItem(
-                    prop.name.toUpperCase(),
-                    (prop.get(rates) as? Double).orZero()
+            (prop.get(rates) as? Double)?.let {
+                currencyItems.add(
+                    RateItem(
+                        prop.name.toUpperCase(),
+                        it
+                    )
                 )
-            )
+            }
         }
         return currencyItems
     }

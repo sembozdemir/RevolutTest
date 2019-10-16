@@ -3,12 +3,12 @@ package com.sembozdemir.revoluttest.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.sembozdemir.revoluttest.core.base.BaseViewModel
 import com.sembozdemir.revoluttest.main.usecase.ConverterUseCase
 import com.sembozdemir.revoluttest.main.usecase.FetchCurrenciesUseCase
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val DEFAULT_CURRENCY_CODE = "EUR"
 
 class MainViewModel @Inject constructor(
     private val fetchCurrenciesUseCase: FetchCurrenciesUseCase,
@@ -25,21 +25,20 @@ class MainViewModel @Inject constructor(
 
     init {
         convertedState.addSource(rawState) { state ->
-            if (state is MainState.Success) {
+            if (state.data != null) {
                 converterUseCase.execute(
                     baseRate,
                     state.data,
+                    state.scrollTop,
                     convertedState
                 )
             }
         }
     }
 
-    fun startFetchCurrencies() {
-        rawState.postValue(MainState.Loading)
-        viewModelScope.launch {
-            fetchCurrenciesUseCase.schedule("EUR", rawState)
-        }
+    fun startFetchCurrencies(code: String = DEFAULT_CURRENCY_CODE, scrollTop: Boolean = false) {
+        rawState.postValue(MainState(loading = true))
+        fetchCurrenciesUseCase.schedule(code, scrollTop, rawState)
     }
 
     fun stopFetchCurrencies() {
@@ -48,6 +47,10 @@ class MainViewModel @Inject constructor(
 
     override fun onCleared() {
         fetchCurrenciesUseCase.cancel()
+    }
+
+    fun setBaseRate(baseRate: Double) {
+        this.baseRate = baseRate
     }
 
 }

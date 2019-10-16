@@ -7,15 +7,13 @@ import com.sembozdemir.revoluttest.core.extensions.autoNotify
 import com.sembozdemir.revoluttest.core.extensions.inflate
 
 class RatesRecyclerAdapter(
-    private var items: List<RateItem> = emptyList()
+    private var items: List<RateItem> = emptyList(),
+    private val onItemClick: (item: RateItem) -> Unit,
+    private val onBaseRateChanged: (baseRate: Double) -> Unit
 ) : RecyclerView.Adapter<RateItemViewHolder>() {
 
-    init {
-        setHasStableIds(true)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RateItemViewHolder {
-        return RateItemViewHolder(parent.inflate(R.layout.item_currency))
+        return RateItemViewHolder(parent.inflate(R.layout.item_currency), onItemClick, onBaseRateChanged)
     }
 
     override fun getItemCount(): Int {
@@ -36,10 +34,6 @@ class RatesRecyclerAdapter(
         } else {
             holder.setRate(payloads.first() as Double)
         }
-    }
-
-    override fun getItemId(position: Int): Long {
-        return items[position].code.hashCode().toLong()
     }
 
     fun updateItems(newItems: List<RateItem>) {

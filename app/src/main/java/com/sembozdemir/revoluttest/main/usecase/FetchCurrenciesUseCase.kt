@@ -17,39 +17,44 @@ class FetchCurrenciesUseCase @Inject constructor(
 ): CoroutineScope {
 
     private var job: Job = Job()
+
     override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Default + job
+        get() = Dispatchers.IO + job
 
     fun cancel() {
         Timber.d("Cancelling fetching currencies...")
         job.cancel()
+        job = Job()
     }
 
-    fun schedule(base: String, mutableState: MutableLiveData<MainState>) = launch {
-        mutableState.postValue(MainState.Loading)
-        while (true) {
-            Timber.d("Fetching currencies...")
-            delay(1000)
-            fetch(base, mutableState)
+    fun schedule(base: String, scrollTop: Boolean, mutableState: MutableLiveData<MainState>): Job {
+        return launch {
+            mutableState.postValue(MainState(loading = true))
+            var mutableScrollTop = scrollTop
+            while (true) {
+                Timber.d("Fetching currencies...")
+                delay(1000)
+                fetch(base, mutableScrollTop, mutableState)
+                mutableScrollTop = false
+            }
         }
     }
 
-    private suspend fun fetch(base: String, mutableState: MutableLiveData<MainState>) {
-
+    private suspend fun fetch(base: String, scrollTop: Boolean, mutableState: MutableLiveData<MainState>) {
         val newState: MainState = try {
             val response = currencyApi.getLatest(base)
             if (!response.isSuccessful) {
                 cancel()
-                MainState.Error(errorHandler.getEmptyResponseMessage())
+                MainState(errorMessage = errorHandler.getEmptyResponseMessage())
             } else {
                 response.body()?.let {
-                    MainState.Success(modelMapper.toUIModel(it))
-                } ?: MainState.Error(errorHandler.getEmptyResponseMessage()).also { cancel() }
+                    MainState(data = modelMapper.toUIModel(it), scrollTop = scrollTop)
+                } ?: MainState(errorMessage = errorHandler.getEmptyResponseMessage()).also { cancel() }
             }
         } catch (e: Exception) {
             Timber.e(e)
             cancel()
-            MainState.Error(errorHandler.getPrettyMessage(e))
+            MainState(errorMessage = errorHandler.getPrettyMessage(e))
         }
 
         mutableState.postValue(newState)

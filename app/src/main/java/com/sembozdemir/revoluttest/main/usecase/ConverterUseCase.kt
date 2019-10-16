@@ -11,6 +11,7 @@ class ConverterUseCase @Inject constructor() {
     fun execute(
         baseRate: Double,
         data: MainUIModel,
+        scrollTop: Boolean,
         state: MutableLiveData<MainState>
     ) {
         val convertedItems = arrayListOf<RateItem>().apply {
@@ -21,6 +22,11 @@ class ConverterUseCase @Inject constructor() {
             it.copy(rate = convertedRate)
         })
 
-        state.postValue(MainState.Success(data.copy(items = convertedItems)))
+        state.postValue(
+            MainState(
+                data = data.copy(items = convertedItems),
+                scrollTop = scrollTop
+            )
+        )
     }
 }

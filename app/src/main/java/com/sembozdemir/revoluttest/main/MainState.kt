@@ -1,7 +1,8 @@
 package com.sembozdemir.revoluttest.main
 
-sealed class MainState {
-    class Success(val data: MainUIModel): MainState()
-    class Error(val message: String): MainState()
-    object Loading : MainState()
-}
+data class MainState(
+    val data: MainUIModel? = null,
+    val errorMessage: String? = null,
+    val loading: Boolean = false,
+    val scrollTop: Boolean = false
+)

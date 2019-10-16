@@ -98,5 +98,8 @@ data class Rates(
 	val nZD: Double? = null,
 
 	@field:Json(name="BRL")
-	val bRL: Double? = null
+	val bRL: Double? = null,
+
+	@field:Json(name="EUR")
+	val eUR: Double? = null
 )

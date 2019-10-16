@@ -10,7 +10,19 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<MainViewModel>() {
 
-    private val currenciesRecyclerAdapter = RatesRecyclerAdapter()
+    private val stateObserver: Observer<MainState> = Observer { state ->
+        mainSwipeRefreshLayout.isRefreshing = state.loading
+        state.errorMessage?.let { showError(it) }
+        state.data?.let { showSuccess(it) }
+        if (state.scrollTop) {
+            mainRecyclerView.scrollToPosition(0)
+        }
+    }
+
+    private val currenciesRecyclerAdapter = RatesRecyclerAdapter(
+        onItemClick = { onItemClick(it) },
+        onBaseRateChanged = { onBaseRateChanged(it) }
+    )
 
     override fun getLayoutResId() = R.layout.activity_main
 
@@ -33,23 +45,23 @@ class MainActivity : BaseActivity<MainViewModel>() {
     }
 
     private fun observeState() {
-        viewModel.state.observe(this, Observer { state ->
-            when (state) {
-                is MainState.Error -> showError(state.message)
-                is MainState.Loading -> mainSwipeRefreshLayout.isRefreshing = true
-                is MainState.Success -> showSuccess(state.data)
-            }
-        })
+        viewModel.state.observe(this, stateObserver)
     }
 
     private fun showSuccess(data: MainUIModel) {
-        mainSwipeRefreshLayout.isRefreshing = false
         currenciesRecyclerAdapter.updateItems(data.items)
-
     }
 
     private fun showError(message: String) {
-        mainSwipeRefreshLayout.isRefreshing = false
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun onItemClick(rateItem: RateItem) {
+        viewModel.stopFetchCurrencies()
+        viewModel.startFetchCurrencies(code = rateItem.code, scrollTop = true)
+    }
+
+    private fun onBaseRateChanged(baseRate: Double) {
+        viewModel.setBaseRate(baseRate)
     }
 }
