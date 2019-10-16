@@ -17,23 +17,20 @@ class RatesRecyclerAdapter(
 ) : RecyclerView.Adapter<RateItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RateItemViewHolder {
-
-        val holder = RateItemViewHolder(parent.inflate(R.layout.item_currency))
-        holder.itemView.setOnClickListener {
-            val position = holder.adapterPosition
-            if (position != RecyclerView.NO_POSITION) {
-                onItemClick(items[position])
+        return RateItemViewHolder(parent.inflate(R.layout.item_currency)).apply {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onItemClick(items[position])
+                }
+            }
+            itemView.editTextRate.doAfterTextChangedDebounced {
+                val position = adapterPosition
+                if (position == 0) {
+                    onBaseRateChanged(it.toBigDecimalOrNull().orZero())
+                }
             }
         }
-        holder.itemView.editTextRate.doAfterTextChangedDebounced {
-            val position = holder.adapterPosition
-            if (position == 0) {
-                onBaseRateChanged(it.toBigDecimalOrNull().orZero())
-            }
-        }
-
-        return holder
-
     }
 
     override fun getItemCount(): Int {
