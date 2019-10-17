@@ -2,6 +2,8 @@
 
 This app is developed for Revolut Android code challenge.
 
+[Demo](demo.gif)
+
 - MVVM & Architecture Components (ViewModel, LiveData) are used in this project.
 - It is written in Kotlin.
 - Kotlin Coroutines is used for background operations.
