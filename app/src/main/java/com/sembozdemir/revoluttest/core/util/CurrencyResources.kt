@@ -24,7 +24,7 @@ class CurrencyResources(val context: Context) {
             "drawable",
             context.packageName
         )
-        if (resId == 0) return R.drawable.ic_flag_unkown
+        if (resId == 0) return R.drawable.ic_flag_unknown
         return resId
     }
 }
