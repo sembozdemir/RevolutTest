@@ -10,4 +10,5 @@
     <dimen name="space_medium">8dp</dimen>
     <dimen name="space_small">4dp</dimen>
     <dimen name="space_tiny">2dp</dimen>
+    <dimen name="currency_item_flag_size">48dp</dimen>
 </resources>

@@ -75,3 +75,8 @@
 -keepclassmembers class * {
     @android.arch.lifecycle.OnLifecycleEvent *;
 }
+
+### network model classes
+-keep public class com.sembozdemir.revoluttest.core.network.** {
+    public protected *;
+}

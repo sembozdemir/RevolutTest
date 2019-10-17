@@ -1,8 +1,10 @@
 package com.sembozdemir.revoluttest.core.network.model
 
+import androidx.annotation.Keep
 import com.squareup.moshi.Json
 import java.math.BigDecimal
 
+@Keep
 data class Rates(
 
 	@field:Json(name="CHF")

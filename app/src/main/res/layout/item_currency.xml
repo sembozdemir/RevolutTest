@@ -55,8 +55,8 @@
 
     <ImageView
         android:id="@+id/imageViewFlag"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="@dimen/currency_item_flag_size"
+        android:layout_height="@dimen/currency_item_flag_size"
         android:layout_marginStart="@dimen/space_default"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

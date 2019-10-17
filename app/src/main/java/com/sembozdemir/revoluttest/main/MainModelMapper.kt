@@ -5,6 +5,7 @@ import com.sembozdemir.revoluttest.core.network.model.Rates
 import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.isAccessible
 
 class MainModelMapper @Inject constructor() {
 
@@ -20,6 +21,7 @@ class MainModelMapper @Inject constructor() {
     private fun mapCurrencyItems(rates: Rates): List<RateItem> {
         val currencyItems = arrayListOf<RateItem>()
         for (prop in Rates::class.memberProperties) {
+            prop.isAccessible = true
             (prop.get(rates) as? BigDecimal)?.let {
                 currencyItems.add(
                     RateItem(

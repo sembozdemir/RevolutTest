@@ -9,7 +9,7 @@ import org.junit.Test
 
 class CurrencyResourcesTest {
 
-    val currencies = listOf(
+    private val currencies = listOf(
         "CHF",
         "hRK",
         "Mxn",
