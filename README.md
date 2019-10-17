@@ -2,7 +2,7 @@
 
 This app is developed for Revolut Android code challenge.
 
-[Demo](demo.gif)
+<img src="demo.gif" width="260" />
 
 - MVVM & Architecture Components (ViewModel, LiveData) are used in this project.
 - It is written in Kotlin.
