@@ -24,7 +24,9 @@ class MainViewModel @Inject constructor(
 
     private var baseRate: BigDecimal = BigDecimal.ONE
 
-    init {
+    init { initMediatorState() }
+
+    private fun initMediatorState() {
         convertedState.addSource(rawState) { state ->
             if (state.data != null) {
                 converterUseCase.execute(
@@ -33,25 +35,34 @@ class MainViewModel @Inject constructor(
                     state.scrollTop,
                     convertedState
                 )
+            } else {
+                convertedState.postValue(state)
             }
         }
     }
 
-    fun startFetchCurrencies(code: String = DEFAULT_CURRENCY_CODE, scrollTop: Boolean = false) {
+    fun handleEvent(event: MainEvent) {
+        when (event) {
+            is MainEvent.StartFetchCurrenciesEvent -> startFetchCurrencies()
+            is MainEvent.CurrencySelectionEvent -> {
+                stopFetchCurrencies()
+                startFetchCurrencies(event.code, scrollTop = true)
+            }
+            is MainEvent.BaseRateChangedEvent -> baseRate = event.baseRate
+        }
+    }
+
+    private fun startFetchCurrencies(code: String = DEFAULT_CURRENCY_CODE, scrollTop: Boolean = false) {
         rawState.postValue(MainState(loading = true))
         fetchCurrenciesUseCase.schedule(code, scrollTop, rawState)
     }
 
-    fun stopFetchCurrencies() {
+    private fun stopFetchCurrencies() {
         fetchCurrenciesUseCase.cancel()
     }
 
     override fun onCleared() {
         fetchCurrenciesUseCase.cancel()
-    }
-
-    fun setBaseRate(baseRate: BigDecimal) {
-        this.baseRate = baseRate
     }
 
 }

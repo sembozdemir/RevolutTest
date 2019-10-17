@@ -12,15 +12,6 @@ import java.math.BigDecimal
 
 class MainActivity : BaseActivity<MainViewModel>() {
 
-    private val stateObserver: Observer<MainState> = Observer { state ->
-        mainProgressBar.isVisible = state.loading
-        state.errorMessage?.let { showError(it) }
-        state.data?.let { showSuccess(it) }
-        if (state.scrollTop) {
-            mainRecyclerView.scrollToPosition(0)
-        }
-    }
-
     private val currenciesRecyclerAdapter = RatesRecyclerAdapter(
         onItemClick = { onItemClick(it) },
         onBaseRateChanged = { onBaseRateChanged(it) }
@@ -37,7 +28,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
         observeState()
 
-        viewModel.startFetchCurrencies()
+        viewModel.handleEvent(MainEvent.StartFetchCurrenciesEvent)
     }
 
     private fun setupRecyclerView() {
@@ -63,16 +54,18 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     private fun showError(message: String) {
         Snackbar.make(mainCoordinatorLayout, message, Snackbar.LENGTH_INDEFINITE)
-            .apply { setAction(R.string.retry) { viewModel.startFetchCurrencies() } }
-            .show()
+            .apply {
+                setAction(R.string.retry) {
+                    viewModel.handleEvent(MainEvent.StartFetchCurrenciesEvent)
+                }
+            }.show()
     }
 
     private fun onItemClick(rateItem: RateItem) {
-        viewModel.stopFetchCurrencies()
-        viewModel.startFetchCurrencies(code = rateItem.code, scrollTop = true)
+        viewModel.handleEvent(MainEvent.CurrencySelectionEvent(rateItem.code))
     }
 
     private fun onBaseRateChanged(baseRate: BigDecimal) {
-        viewModel.setBaseRate(baseRate)
+        viewModel.handleEvent(MainEvent.BaseRateChangedEvent(baseRate))
     }
 }
